@@ -17,7 +17,6 @@ if ($conn->connect_error) {
 // --- Get form data ---
 $code = trim($_POST['code']);
 $action = $_POST['action']; // 'entry' or 'exit'
-var_dump($_POST);
 // --- Look up user ---
 $stmt = $conn->prepare("SELECT id, name FROM users WHERE user_code = ?");
 $stmt->bind_param("s", $code);
