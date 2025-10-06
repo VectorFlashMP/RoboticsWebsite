@@ -11,7 +11,7 @@ $dbname = "robotics_db";
 $conn = new mysqli($servername, $username, $password, $dbname);
 if ($conn->connect_error) die("Connection failed: " . $conn->connect_error);
 
-// --- Fetch logs with user names ---
+// Fetch logs with user names 
 $sql = "SELECT logs.log_id, users.name, logs.action, logs.time 
         FROM logs 
         JOIN users ON logs.user_id = users.id
@@ -20,7 +20,6 @@ $sql = "SELECT logs.log_id, users.name, logs.action, logs.time
 $result = $conn->query($sql);
 if (!$result) die("Query failed: " . $conn->error);
 
-// --- Display as HTML table ---
 echo "<h2>Team Logs</h2>";
 echo "<table border='1' cellpadding='8' cellspacing='0'>";
 echo "<tr><th>Log ID</th><th>Name</th><th>Action</th><th>Time</th></tr>";
