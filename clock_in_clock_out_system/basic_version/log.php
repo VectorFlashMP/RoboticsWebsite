@@ -1,7 +1,7 @@
 <?php
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
-// --- DB connection ---
+
 $servername = "localhost";
 $username = "robotics_user";   // DB user
 $password = "buzzybots#1";      // DB password
@@ -14,10 +14,10 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// --- Get form data ---
+// Get form data 
 $code = trim($_POST['code']);
 $action = $_POST['action']; // 'entry' or 'exit'
-// --- Look up user ---
+// Look up user 
 $stmt = $conn->prepare("SELECT id, name FROM users WHERE user_code = ?");
 $stmt->bind_param("s", $code);
 $stmt->execute();
@@ -31,7 +31,7 @@ $user = $result->fetch_assoc();
 $user_id = $user['id'];
 $user_name = $user['name'];
 
-// --- Check last action ---
+// Check last action 
 $stmt = $conn->prepare("SELECT action FROM logs WHERE user_id = ? ORDER BY time DESC LIMIT 1");
 $stmt->bind_param("i", $user_id);
 $stmt->execute();
