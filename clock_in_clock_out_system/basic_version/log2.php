@@ -1,60 +1,49 @@
 <?php
-error_reporting(E_ALL);
-ini_set('display_errors', 1);
-
 $servername = "localhost";
-$username = "robotics_user";   // DB user
-$password = "buzzybots#1";      // DB password
-$dbname = "robotics_db";       // DB name
-
+$username = "robotics_user";
+$password = "buzzybots#1";
+$dbname = "robotics_db";
 $conn = new mysqli($servername, $username, $password, $dbname);
-
-// Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
+if ($conn->connect_error) die("Connection failed: " . $conn->connect_error);
+$request_type = $_POST['request_type'] ?? '';
+if ($request_type === 'verify_code') {
+    $code = trim($_POST['code']);
+    $sql = "SELECT id FROM users WHERE user_code = '$code'";
+    $res = $conn->query($sql);
+    if ($res->num_rows > 0) echo "verified";
+    else echo "invalid";
+    exit;
 }
 
-// Get form data 
-$code = trim($_POST['code']);
-$action = $_POST['action']; // 'entry' or 'exit'
-// Look up user 
-$stmt = $conn->prepare("SELECT id, name FROM users WHERE user_code = ?");
-$stmt->bind_param("s", $code);
-$stmt->execute();
-$result = $stmt->get_result();
+if ($request_type === 'log_action') {
+    $code = trim($_POST['code']);
+    $action = $_POST['action'] ?? 'entry';
+    $manual = isset($_POST['manual']);
+    $entrytime = $_POST['entrytime'] ?? '';
+   $sql = "SELECT id, name FROM users WHERE user_code = '$code'";
+    $res = $conn->query($sql);
+    if ($res->num_rows === 0) die("Error: Code not found.");
 
-if ($result->num_rows === 0) {
-    die("Error: User code not found!");
+    $user = $res->fetch_assoc();
+    $user_id = $user['id'];
+    $name = $user['name'];
+
+    // Check last action
+    $sql = "SELECT action FROM logs WHERE user_id = $user_id ORDER BY time DESC LIMIT 1";
+    $last = $conn->query($sql)->fetch_assoc()['action'] ?? null;
+    if ($last === $action) die("Error: Cannot repeat same action twice.");
+
+    if ($manual && $entrytime) {
+        $entrytime .= ":00"; // seconds default to 00
+        $sql = "INSERT INTO logs (user_id, action, time) VALUES ($user_id, 'entry', '$entrytime')";
+    } else {
+        $sql = "INSERT INTO logs (user_id, action) VALUES ($user_id, '$action')";
+    }
+
+    if ($conn->query($sql))
+        echo "Success: $name has recorded '$action'";
+    else
+        echo "Error inserting log.";
 }
-
-$user = $result->fetch_assoc();
-$user_id = $user['id'];
-$user_name = $user['name'];
-
-// Check last action 
-$stmt = $conn->prepare("SELECT action FROM logs WHERE user_id = ? ORDER BY time DESC LIMIT 1");
-$stmt->bind_param("i", $user_id);
-$stmt->execute();
-$last_result = $stmt->get_result();
-
-$last_action = null;
-if ($last_result->num_rows > 0) {
-    $last_action = $last_result->fetch_assoc()['action'];
-}
-
-// --- Insert new log only if different from last ---
-if ($last_action === $action) {
-    die("Error: Cannot repeat the same action twice in a row.");
-}
-
-$stmt = $conn->prepare("INSERT INTO logs (user_id, action) VALUES (?, ?)");
-$stmt->bind_param("is", $user_id, $action);
-
-if ($stmt->execute()) {
-    echo "Success: $user_name has recorded '$action' at " . date("Y-m-d H:i:s");
-} else {
-    echo "Error: Could not insert log.";
-}
-
 $conn->close();
 ?>
