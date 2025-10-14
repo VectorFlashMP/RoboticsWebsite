@@ -1,3 +1,4 @@
+/*I asked mariadb to dump to an sql file, it gave me this monstrosity that I do not understand any line of*/
 /*M!999999\- enable the sandbox mode */ 
 -- MariaDB dump 10.19  Distrib 10.6.22-MariaDB, for debian-linux-gnu (x86_64)
 --
