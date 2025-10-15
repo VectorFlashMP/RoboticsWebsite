@@ -33,7 +33,7 @@
       document.getElementById("code").value = "";
     }
     async function verifyCode() {
-      const code = document.getElementById("code").value.trim();
+      const code = document.getElementById("code").value.trim(); //just preventing any blank spaces as I don't have them in db
       if (!code) {
         alert("Please enter your code first!");
         return;
