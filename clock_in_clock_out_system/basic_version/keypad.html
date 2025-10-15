@@ -1,30 +1,52 @@
-<!DOCTYPE html>
 <html>
 <head>
   <title>Enter Code</title>
   <style>
-    body { text-align: center; font-family: Arial; }
-    input { font-size: 24px; padding: 8px; width: 200px; text-align: center; }
-    button { font-size: 20px; margin: 5px; padding: 10px 20px; }
-    #keypad { display: flex; flex-wrap: wrap; justify-content: center; width: 180px; margin: 20px auto; }
-    #keypad button { width: 80px; height: 60px; font-size: 22px; }
+    body {
+      text-align: center;
+      font-family: Arial;
+      margin-top: 50px;
+    }
+    #code {
+      font-size: 24px;
+      padding: 10px;
+      width: 200px;
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    #keypad {
+      display: grid;
+      grid-template-columns: repeat(3, 80px);
+      gap: 10px;
+      justify-content: center;
+    }
+    button {
+      font-size: 22px;
+      height: 60px;
+    }
   </style>
   <script>
     function addDigit(d) {
-      document.getElementById("code").value += d;
+       document.getElementById("code").value += d;
     }
     function clearCode() {
       document.getElementById("code").value = "";
     }
     async function verifyCode() {
       const code = document.getElementById("code").value.trim();
+      if (!code) {
+        alert("Please enter your code first!");
+        return;
+      }
+
       const formData = new FormData();
       formData.append("request_type", "verify_code");
       formData.append("code", code);
 
       const res = await fetch("log2.php", { method: "POST", body: formData });
       const text = await res.text();
-        if (text.includes("verified")) {
+
+      if (text.includes("verified")) {
         window.location.href = `clock.html?code=${code}`;
       } else {
         alert("Invalid code. Try again.");
@@ -33,8 +55,9 @@
   </script>
 </head>
 <body>
-  <h2>Enter Your Code</h2>
-  <input type="text" id="code" readonly><br>
+   <h2>Enter Your Code</h2>
+  <input type="text" id="code" readonly>
+
   <div id="keypad">
     <button onclick="addDigit('1')">1</button>
     <button onclick="addDigit('2')">2</button>
@@ -45,9 +68,10 @@
     <button onclick="addDigit('7')">7</button>
     <button onclick="addDigit('8')">8</button>
     <button onclick="addDigit('9')">9</button>
+
     <button onclick="clearCode()">Clear</button>
     <button onclick="addDigit('0')">0</button>
+    <button onclick="verifyCode()">Submit</button>
   </div>
-  <button onclick="verifyCode()">Submit</button>
 </body>
 </html>
