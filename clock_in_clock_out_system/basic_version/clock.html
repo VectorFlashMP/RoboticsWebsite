@@ -24,8 +24,8 @@
     <button type="submit" name="manual" value="true">Submit Manual Entry</button>
   </form>
    <script>
-    const params = new URLSearchParams(window.location.search);
-    const code = params.get("code");
+    const x = new URLSearchParams(window.location.search);
+    const code = x.get("code");
     document.getElementById("code").value = code;
     document.getElementById("manualCode").value = code;
   </script>
