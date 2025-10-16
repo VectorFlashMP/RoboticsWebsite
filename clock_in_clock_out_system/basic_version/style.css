@@ -1,0 +1,89 @@
+
+body {
+  background-color: #111;
+  color: white;
+  font-family: "Segoe UI", sans-serif;
+  text-align: center;
+  margin: 0;
+  padding: 0;
+}
+
+.container {
+  margin-top: 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+input[type="text"],
+input[type="number"] {
+  background-color: #222;
+  border: 2px solid #444;
+  color: white;
+  font-size: 22px;
+  padding: 12px;
+  border-radius: 8px;
+  text-align: center;
+  width: 240px;
+  margin-bottom: 20px;
+}
+button {
+  font-size: 22px;
+  height: 60px;
+  width: 80px;
+  border: none;
+  border-radius: 10px;
+  background-color: #2a2a2a;
+  color: white;
+  transition: background-color 0.2s;
+}
+
+button:hover {
+  background-color: #3a3a3a;
+}
+
+button:active {
+  background-color: #555;
+}
+
+#keypad {
+  display: grid;
+  grid-template-columns: repeat(3, 80px);
+  gap: 10px;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.clock {
+  font-size: 72px;
+  font-weight: 600;
+  margin-top: 40px;
+}
+
+.action-buttons {
+  margin-top: 20px;
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+}
+
+
+@media (max-width: 600px) {
+  input[type="text"],
+  input[type="number"] {
+    width: 80%;
+  }
+
+  #keypad {
+    grid-template-columns: repeat(3, 70px);
+    gap: 8px;
+  }
+
+  button {
+    width: 70px;
+    height: 55px;
+    font-size: 20px;
+  }
+}
+
