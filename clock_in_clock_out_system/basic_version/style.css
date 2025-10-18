@@ -1,43 +1,40 @@
-
-
-
-.container {
-  margin-top: 60px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
+body {
+  text-align: center;
+  font-family: Arial, sans-serif;
+  margin-top: 50px;
+  background-color: #f9f9f9;
 }
 
 input[type="text"],
-input[type="number"] {
-  background-color: #222;
-  border: 2px solid #444;
-  color: white;
-  font-size: 22px;
-  padding: 12px;
-  border-radius: 8px;
+input[type="time"],
+input[type="hidden"] {
+  font-size: 24px;
+  padding: 10px;
+  width: 200px;
   text-align: center;
-  width: 240px;
   margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
 }
+
+#manualForm input[type="time"] {
+  font-size: 18px;
+  width: 150px;
+}
+
 button {
   font-size: 22px;
-  height: 60px;
-  width: 80px;
-  border: none;
-  border-radius: 10px;
-  background-color: #2a2a2a;
-  color: white;
+  padding: 10px 20px;
+  margin: 5px;
+  border-radius: 6px;
+  border: 1px solid #888;
+  cursor: pointer;
+  background-color: #eee;
   transition: background-color 0.2s;
 }
 
 button:hover {
-  background-color: #3a3a3a;
-}
-
-button:active {
-  background-color: #555;
+  background-color: #ddd;
 }
 
 #keypad {
@@ -45,38 +42,25 @@ button:active {
   grid-template-columns: repeat(3, 80px);
   gap: 10px;
   justify-content: center;
-  margin-top: 20px;
+  margin: 20px auto;
 }
 
-.clock {
-  font-size: 72px;
-  font-weight: 600;
-  margin-top: 40px;
+#keypad button {
+  width: 80px;
+  height: 60px;
+  font-size: 22px;
 }
-
-.action-buttons {
-  margin-top: 20px;
-  display: flex;
-  gap: 20px;
-  justify-content: center;
-}
-
 
 @media (max-width: 600px) {
   input[type="text"],
-  input[type="number"] {
+  input[type="time"] {
     width: 80%;
   }
-
-  #keypad {
-    grid-template-columns: repeat(3, 70px);
-    gap: 8px;
-  }
-
-  button {
+  #keypad button {
     width: 70px;
     height: 55px;
     font-size: 20px;
   }
 }
+
 
