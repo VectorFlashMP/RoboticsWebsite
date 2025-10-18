@@ -1,31 +1,55 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Clock In/Out</title>
+  <title>Enter Code</title>
   <link rel="stylesheet" href="style.css">
+  <script>
+    function addDigit(d) {
+       document.getElementById("code").value += d;
+    }
+    function clearCode() {
+      document.getElementById("code").value = "";
+    }
+    async function verifyCode() {
+      const code = document.getElementById("code").value.trim();
+      if (!code) {
+        alert("Please enter your code first!");
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append("request_type", "verify_code");
+      formData.append("code", code);
+
+      const res = await fetch("log2.php", { method: "POST", body: formData });
+      const text = await res.text();
+
+      if (text.includes("verified")) {
+        window.location.href = `clock.html?code=${code}`;
+      } else {
+        alert("Invalid code. Try again.");
+      }
+    }
+  </script>
 </head>
 <body>
-  <h2>Clock In / Clock Out</h2>
-  <form id="logForm" method="POST" action="log2.php">
-    <input type="hidden" name="request_type" value="log_action">
-    <input type="hidden" name="code" id="code">
-    <button type="submit" name="action" value="entry">Clock In</button>
-    <button type="submit" name="action" value="exit">Clock Out</button>
-  </form>
+   <h2>Enter Your Code</h2>
+   <input type="text" id="code" readonly>
 
-  <h3>Manual Check-In</h3>
-  <form id="manualForm" method="POST" action="log2.php">
-    <input type="hidden" name="request_type" value="log_action">
-    <input type="hidden" name="code" id="manualCode">
-    <input type="time" name="entrytime">
-    <button type="submit" name="manual" value="true">Submit Manual Entry</button>
-  </form>
-
-  <script>
-    const x = new URLSearchParams(window.location.search);
-    const code = x.get("code");
-    document.getElementById("code").value = code;
-    document.getElementById("manualCode").value = code;
-  </script>
+  <div id="keypad">
+    <button onclick="addDigit('1')">1</button>
+    <button onclick="addDigit('2')">2</button>
+    <button onclick="addDigit('3')">3</button>
+    <button onclick="addDigit('4')">4</button>
+    <button onclick="addDigit('5')">5</button>
+    <button onclick="addDigit('6')">6</button>
+    <button onclick="addDigit('7')">7</button>
+    <button onclick="addDigit('8')">8</button>
+    <button onclick="addDigit('9')">9</button>
+    <button onclick="clearCode()">Clear</button>
+    <button onclick="addDigit('0')">0</button>
+    <button onclick="verifyCode()">Submit</button>
+  </div>
 </body>
 </html>
+
