@@ -2,10 +2,7 @@
 <html>
 <head>
   <title>Clock In/Out</title>
-  <style>
-    body { text-align: center; font-family: Arial; margin-top: 40px; }
-    input, button { font-size: 18px; margin: 5px; padding: 8px 16px; }
-  </style>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
   <h2>Clock In / Clock Out</h2>
@@ -23,7 +20,8 @@
     <input type="time" name="entrytime">
     <button type="submit" name="manual" value="true">Submit Manual Entry</button>
   </form>
-   <script>
+
+  <script>
     const x = new URLSearchParams(window.location.search);
     const code = x.get("code");
     document.getElementById("code").value = code;
@@ -31,3 +29,5 @@
   </script>
 </body>
 </html>
+
+
